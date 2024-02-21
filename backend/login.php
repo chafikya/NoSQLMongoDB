@@ -1,108 +1,140 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Connexion</title>
-</head>
-<body>
-    <h1>Connexion</h1>
-    <?php
-    // Check if there's an error message to display
-    if (isset($_GET['error'])) {
-        $error = $_GET['error'];
-        echo "<p style='color: red;'>$error</p>";
-    }
-
-    // Check if the form has been submitted
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Get user input
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        // Execute the Python script and capture its output
-        $cmd = '/Users/mac/.local/share/virtualenvs/j-znrU1gIY/bin/python' . ' ' . '/Users/mac/Desktop/Base_Donner/Base_de_Donner/public_html/EtuServices/exec.py'. ' ' . escapeshellarg($email) . ' ' . escapeshellarg($password);
-        $output = shell_exec($cmd);
-        var_dump($output);
-        echo"$output";
-        die("CMD" . $cmd);
- 
-        // Check if the script returned a valid result
-        if ($output === FALSE) {
-            echo "Error executing the Python script";
-        } else {
-            // Check the script result
-            if ($output == "blocked") {
-                // User is blocked, redirect with an error message
-                header("Location: login.php?error=Your account is blocked.");
-                exit();
-            } elseif (is_numeric($output) && $output > 0) {
-                // User needs to wait, show a waiting message
-                echo "Please wait $output seconds before retrying.";
-            } else {
-                // Validate user credentials
-                if (authenticate_user($email, $password)) {
-                    // Redirect to the services page upon successful authentication
-                    header("Location: services.php");
-                    exit();
-                } else {
-                    // Redirect back to the login page with an error message
-                    header("Location: login.php?error=Incorrect credentials.");
-                    exit();
-                }
-            }
-        }
-    }
-    ?>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
-        <label for="password">Mot de passe:</label><br>
-        <input type="password" id="password" name="password"><br><br>
-        <input type="submit" value="Se connecter">
-    </form>
-</body>
-</html>
-
 <?php
-function authenticate_user($email, $password) {
-    // Connect to the database using prepared statements
+// Vérifier si le formulaire a été soumis
+if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+    // Le formulaire a été soumis via POST, traiter les données ici
+    $email = $_POST["email"];
+    $mdp = $_POST["mot_de_passe"]; 
+
+    // Établir une connexion à la base de données
     $servername = "localhost";
     $username = "root";
-    $passwordi = ""; // Change this to your actual database password
-    $dbname = "Login";
+    $password = "";
+    $dbname = "etuservices_db"; // Remplacez par le nom de votre base de données
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $passwordi, $dbname);
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Check connection
+    // Vérifier la connexion
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        die("La connexion à la base de données a échoué : " . $conn->connect_error);
     }
 
-    // Prepare SQL statement with parameterized query to fetch user details based on email
-    $sql = "SELECT * FROM user WHERE email = ?";
+    // Préparer et exécuter la requête SQL pour vérifier les informations de connexion
+    $sql = "SELECT id, mot_de_passe FROM utilisateurs WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // User found, verify password
-        $row = $result->fetch_assoc();
-        // Compare plaintext password with the password stored in the database
-        if ($password == $row["password"]) {
-            return true; 
+        $user = $result->fetch_assoc();
+        if (password_verify($mdp, $user['mot_de_passe'])) {
+            // Les informations de connexion sont correctes
+            $id_utilisateur = $user["id"];
+
+            // Exécuter le script Python avec l'id utilisateur
+            $cmd = escapeshellcmd("C:/Users/Hp/anaconda3/python.exe" . " " . "C:/Users/Hp/Desktop/COURS/Bases_de_donnees_distribuees/TP/TP1/app.py" . " " . $id_utilisateur);
+            $shelloutput = shell_exec($cmd);
+            // Afficher la sortie pour débogage
+           # echo "<pre>$shelloutput</pre>";
+
+            if (strpos($shelloutput, "Connexion refusee") !== false) {
+                echo "<pre>$shelloutput</pre>";
+            } else {
+                header('Location: services.php');
+            }
         } else {
-            // Password is incorrect, return false
-            // Close database connection
-            $stmt->close();
-            $conn->close();
-            return false;
+            // Afficher un message d'erreur
+            echo "Identifiants incorrects.";
         }
     } else {
-        // User not found, return false
-        // Close database connection
-        $stmt->close();
-        $conn->close();
-        return false;
+        // Afficher un message d'erreur
+        echo "Identifiants incorrects.";
     }
+    // Fermer la connexion à la base de données
+    $conn->close();
 }
 ?>
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion à EtuServices</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-field {
+            margin-bottom: 15px;
+        }
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-field input[type=email], .form-field input[type=password] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-field input[type=submit] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            background-color: #007bff;
+            cursor: pointer;
+        }
+        .form-field input[type=submit]:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            text-align: center;
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-form">
+        <h2>Connexion</h2>
+        <form action="login.php" method="post">
+            <div class="form-field">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-field">
+                <label for="mot_de_passe">Mot de passe:</label>
+                <input type="password" id="mot_de_passe" name="mot_de_passe" required>
+            </div>
+            <div class="form-field">
+                <input type="submit" value="Se connecter">
+            </div>
+        </form>
+        <?php if (isset($shelloutput) && strpos($shelloutput, "Connexion refusee") !== false): ?>
+            <div class="message">
+                Connexion refusée.
+            </div>
+        <?php endif; ?>
+    </div>
+</body>
+</html>
