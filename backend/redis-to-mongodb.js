@@ -5,7 +5,7 @@ const { MongoClient } = require('mongodb');
 const redisClient = redis.createClient();
 
 // Connect to MongoDB
-const mongoClient = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true, useUnifiedTopology: true });
+const mongoClient = new MongoClient('mongodb://localhost:27018', { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function main() {
     try {
