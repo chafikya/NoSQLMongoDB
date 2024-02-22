@@ -1,1 +1,1 @@
-Exécution : mongod --replSet rs0 --port 27018 --dbpath ./r0s1
+Exécution : mongod --port 27018 --dbpath /Users/mac/Desktop/NoSQLMongoDB/data
