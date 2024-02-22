@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const redisClient = redis.createClient();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:37017', {
+mongoose.connect('mongodb://localhost:27019', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
