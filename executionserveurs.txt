@@ -1,2 +1,1 @@
-Exécution : mongod --port 27018 --dbpath addyour path
-
+Exécution : mongod --replSet rs0 --port 27018 --dbpath ./r0s1
