@@ -7,14 +7,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './component/signup/signup.component';
-import { TasksComponent } from './component/tasks/tasks.component';
-import { PrivateTasksComponent } from './component/private-tasks/private-tasks.component';
+
 import { SigninComponent } from './component/signin/signin.component';
 import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserProfileComponent } from './component/user-profile/user-profile.component';
 
 
 
@@ -22,8 +21,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
   declarations: [
     AppComponent,
     SignupComponent,
-    TasksComponent,
-    PrivateTasksComponent,
     SigninComponent,
     UserProfileComponent
   ],
