@@ -12,8 +12,11 @@ import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+<<<<<<< HEAD
 import { UserComponent } from './component/user/user.component';
 import { ChatComponent } from './component/chat/chat.component';
+=======
+>>>>>>> parent of 044d69cb (cc)
 
 
 
@@ -21,9 +24,15 @@ import { ChatComponent } from './component/chat/chat.component';
   declarations: [
     AppComponent,
     SignupComponent,
+<<<<<<< HEAD
     SigninComponent,
     UserComponent,
     ChatComponent
+=======
+    TasksComponent,
+    PrivateTasksComponent,
+    SigninComponent
+>>>>>>> parent of 044d69cb (cc)
   ],
   imports: [
     FormsModule,
