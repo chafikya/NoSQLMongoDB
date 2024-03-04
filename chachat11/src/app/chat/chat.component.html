@@ -1,0 +1,17 @@
+<p>chat marche!</p>
+<!-- chat.component.html -->
+<div class="chat-container">
+    <!-- Zone d'affichage des messages -->
+    <div class="messages">
+      <div *ngFor="let message of messages" class="message">
+        <strong>{{ message.from }}:</strong> {{ message.message }}
+      </div>
+    </div>
+  
+    <!-- Formulaire d'envoi de message -->
+    <div class="message-form">
+      <input [(ngModel)]="newMessage" type="text" placeholder="Écrivez un message..." />
+      <button (click)="sendMessage()">Envoyer</button>
+    </div>
+  </div>
+  
