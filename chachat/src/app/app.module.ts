@@ -14,6 +14,7 @@ import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 
@@ -23,7 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SignupComponent,
     TasksComponent,
     PrivateTasksComponent,
-    SigninComponent
+    SigninComponent,
+    UserProfileComponent
   ],
   imports: [
     FormsModule,
