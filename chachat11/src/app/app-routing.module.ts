@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { ChatComponent } from './chat/chat.component';
-import { HistoryComponent } from './history/history.component';
-import { UserListComponent } from './user-list/user-list.component';
+import { LoginComponent } from './component/login/login.component';
+import { ChatComponent } from './component/chat/chat.component';
+import { HistoryComponent } from './component/history/history.component';
+import { UserListComponent } from './component/user-list/user-list.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
