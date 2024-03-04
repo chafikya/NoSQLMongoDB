@@ -8,9 +8,12 @@ import { LoginComponent } from './component/login/login.component';
 import { UserListComponent } from './component/user-list/user-list.component';
 import { ChatComponent } from './component/chat/chat.component';
 import { HistoryComponent } from './component/history/history.component';
+import { UserComponent } from '../../../chachat/src/app/component/user/user.component';
 
 @NgModule({
   declarations: [
+    ChatComponent,
+    UserComponent,
     AppComponent,
     LoginComponent,
     UserListComponent,

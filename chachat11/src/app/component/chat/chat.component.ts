@@ -20,7 +20,6 @@ export class ChatComponent {
  
 
   sendMessage() {
-    // Logique pour envoyer `newMessage` à la conversation actuelle
     this.newMessage = ''; // Réinitialiser l'entrée après l'envoi
   }
   
