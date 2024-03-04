@@ -17,9 +17,7 @@ export class ChatComponent {
   newMessage: string = '';
   constructor() { }
 
-  selectConversation(conversation) {
-    // Mettez à jour `currentMessages` en fonction de la conversation sélectionnée
-  }
+ 
 
   sendMessage() {
     // Logique pour envoyer `newMessage` à la conversation actuelle
