@@ -13,6 +13,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserComponent } from './component/user/user.component';
+import { ChatComponent } from './component/chat/chat.component';
 
 
 
@@ -21,7 +22,8 @@ import { UserComponent } from './component/user/user.component';
     AppComponent,
     SignupComponent,
     SigninComponent,
-    UserComponent
+    UserComponent,
+    ChatComponent
   ],
   imports: [
     FormsModule,
