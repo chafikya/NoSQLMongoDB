@@ -1,17 +1,85 @@
-<p>chat marche!</p>
-<!-- chat.component.html -->
-<div class="chat-container">
-    <!-- Zone d'affichage des messages -->
-    <div class="messages">
-      <div *ngFor="let message of messages" class="message">
-        <strong>{{ message.from }}:</strong> {{ message.message }}
-      </div>
-    </div>
-  
-    <!-- Formulaire d'envoi de message -->
-    <div class="message-form">
-      <input [(ngModel)]="newMessage" type="text" placeholder="Écrivez un message..." />
-      <button (click)="sendMessage()">Envoyer</button>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Inbox</title>
+  <style>
+    /* CSS for styling avatar and inbox */
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #ccc;
+      margin-bottom: 20px;
+      cursor: pointer;
+      /* Make the avatar clickable */
+    }
+
+    .inbox {
+      border: 1px solid #ccc;
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* Style for clickable messages */
+    .message-link {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+
+    /* Style for the button */
+    .chat-button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Avatar -->
+  <div class="avatar"></div>
+
+  <!-- Message Inbox -->
+  <div class="inbox">
+    <h2>Message Inbox</h2>
+    <ul>
+      <li>
+        <strong>Sender:</strong> John Doe
+        <br>
+        <strong>Subject:</strong> Lorem ipsum dolor sit amet
+        <br>
+        <span class="message-link">Lorem ipsum dolor sit amet,
+          consectetur adipiscing elit. Duis at velit eget mauris lobortis...</span>
+      </li>
+      <li>
+        <strong>Sender:</strong> Jane Smith
+        <br>
+        <strong>Subject:</strong> Nulla viverra justo sit amet urna sollicitudin
+        <br>
+        <span class="message-link">Nulla viverra justo sit amet urna
+          sollicitudin, nec malesuada tortor malesuada...</span>
+      </li>
+    </ul>
   </div>
-  
+
+  <!-- Button to navigate to chat component -->
+  <button class="chat-button" onclick="navigateToChat()">Go to Chat</button>
+
+  <!-- JavaScript function to navigate to chat component -->
+  <script>
+    function navigateToChat() {
+      // Redirect to the chat component using Angular's router
+      window.location.href = '/chat'; // Change '/chat' to the actual route of the chat component
+    }
+  </script>
+</body>
+
+</html>

@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-// Compoennts
-import { TasksComponent } from './component/tasks/tasks.component';
+
 import { SigninComponent } from './component/signin/signin.component';
 import { SignupComponent } from './component/signup/signup.component';
-import { PrivateTasksComponent } from './component/private-tasks/private-tasks.component';
-import { AuthGuard} from './auth.guard';
+import { UserComponent } from './component/user/user.component';
+import { ChatComponent } from './component/chat/chat.component';
 
 const routes: Routes = [
 {
@@ -14,17 +13,16 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'tasks',
-    component: TasksComponent
-  },
-  {
-    path: 'private',
-    component: PrivateTasksComponent,
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'signin',
     component: SigninComponent
+  },
+  {
+    path: 'chat',
+    component: ChatComponent
+  },
+  {
+    path: 'user',
+    component: UserComponent
   },
   {
     path: 'signup',

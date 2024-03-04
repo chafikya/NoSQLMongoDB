@@ -1,11 +1,13 @@
-const express = require('express');
-const connectToMongo = require('./database.js'); // Assurez-vous que le chemin est correct
 
-connectToMongo(); // Établit la connexion à MongoDB
-
+const express = require('express')
+const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Serveur démarré sur le port ${PORT}`);
-});
+require('./database');
+app.use(express.json())
+app.use(cors());
+
+
+app.listen(3000);
+console.log('Server on port', 3000);
+
