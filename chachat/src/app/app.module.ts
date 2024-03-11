@@ -13,7 +13,7 @@ import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserProfileComponent } from './component/user-profile/user-profile.component';
+import { UserComponent } from './component/user/user.component';
 
 
 
@@ -22,7 +22,7 @@ import { UserProfileComponent } from './component/user-profile/user-profile.comp
     AppComponent,
     SignupComponent,
     SigninComponent,
-    UserProfileComponent
+    UserComponent
   ],
   imports: [
     FormsModule,
