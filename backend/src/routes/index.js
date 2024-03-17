@@ -1,41 +1,46 @@
 // routes/index.js
 const { Router } = require('express');
 const router = Router();
-
 const mongoose = require('mongoose');
 const path = require('path');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 router.get('/', (req, res) => res.send('Hello World'))
 
 const bcrypt = require('bcrypt');
-const saltRounds = 10; // Vous pouvez augmenter pour plus de sécurité
 
 router.post('/signup', async (req, res) => {
-    const { email, password } = req.body;
+    const { name, surname, phone, email, password } = req.body;
 
     try {
-        // Vérifier si l'utilisateur existe déjà
-        console.log("Email reçu :", email);
+        // Check if the user already exists
         const existingUser = await User.findOne({ email });
-        console.log("Utilisateur existant :", existingUser);
         if (existingUser) {
-            return res.status(400).json({ message: "L'email est déjà utilisé" });
+            return res.status(400).json({ message: "The email is already in use" });
         }
 
-        // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        const newUser = new User({ email, password: hashedPassword });
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create a new user object with all the fields
+        const newUser = new User({ name, surname, phone, email, password: hashedPassword });
+
+        // Save the new user to the database
         await newUser.save();
-        const token = jwt.sign({ _id: newUser._id }, 'secretkey');
+
+        // Generate a JWT token for the new user
+        const token = jwt.sign({ _id: User._id }, 'secretkey');
+
+        // Respond with the token
         res.status(201).json({ token });
-        
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ message: 'Erreur lors de la création de l’utilisateur' });
+        res.status(500).json({ message: 'Error creating the user' });
     }
 });
+
 
 
 router.post('/signin', async (req, res) => {
@@ -44,22 +49,24 @@ router.post('/signin', async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(401).json({ message: "Email non trouvé" });
+            return res.status(401).json({ message: "Email not found" });
         }
 
-        // Comparer le mot de passe fourni avec le mot de passe haché
+        // Compare the provided password with the hashed password stored in the database
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(401).json({ message: 'Mot de passe incorrect' });
+            return res.status(401).json({ message: 'Incorrect password' });
         }
 
-        // Créer un token JWT
+        // If the passwords match, generate a JWT token
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
         res.status(200).json({ token });
     } catch (error) {
-        res.status(500).json({ message: 'Erreur de serveur' });
+        console.error(error); // Log the actual error for debugging
+        res.status(500).json({ message: 'An error occurred during sign-in' });
     }
 });
+
 
 router.get('/tasks', async (req, res) => {
     try {

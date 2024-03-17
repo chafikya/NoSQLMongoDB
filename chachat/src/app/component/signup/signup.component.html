@@ -1,24 +1,36 @@
+<!-- signup.component.html -->
 <div class="row">
     <div class="col-md-4 mx-auto">
-        <div class="card">
-            <div class="card-header">
-                SignUp
-            </div>
-            <div class="card-body">
-                <form (submit)="signUp()">
-                    <div class="form-group">
-                        <input type="text" [(ngModel)]="user.email" name="email" class="form-control"
-                            placeholder="Email" required autofocus>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" [(ngModel)]="user.password" name="password" class="form-control"
-                            placeholder="Password" required>
-                    </div>
-                    <button class="btn btn-primary btn-block">
-                        SignUp
-                    </button>
-                </form>
-            </div>
+      <div class="card">
+        <div class="card-header">
+          SignUp
         </div>
+        <div class="card-body">
+          <form (ngSubmit)="signUp()">
+            <div class="form-group">
+              <p> Name :</p>
+              <input type="text" [(ngModel)]="user.name" name="name" class="form-control" placeholder="Name" required autofocus>
+            </div>
+            <div class="form-group">
+              <p> Surname:</p>
+              <input type="text" [(ngModel)]="user.surname" name="surname" class="form-control" placeholder="Surname" required autofocus>
+            </div>
+            <div class="form-group">
+              <p> Phone Number:</p>
+              <input type="text" [(ngModel)]="user.phone" name="phone" class="form-control" placeholder="Phone" required autofocus>
+            </div>
+            <div class="form-group">
+              <p> Email:</p>
+              <input type="email" [(ngModel)]="user.email" name="email" class="form-control" placeholder="Email" required autofocus>
+            </div>
+            <div class="form-group">
+              <p> Password:</p>
+              <input type="password" [(ngModel)]="user.password" name="password" class="form-control" placeholder="Password" required autofocus>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">SignUp</button>
+          </form>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+  

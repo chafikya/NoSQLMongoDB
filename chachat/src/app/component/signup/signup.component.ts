@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service'
-import { Router } from '@angular/router'
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -11,15 +11,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class SignupComponent implements OnInit {
 
   user = {
-    email: String,
-    password: String
+    name: '',
+    surname: '',
+    phone: '',
+    email: '',
+    password: ''
   };
-  
+
   constructor(
     private snackBar: MatSnackBar,
     private authService: AuthService,
     private router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
   }
@@ -28,28 +31,24 @@ export class SignupComponent implements OnInit {
     console.log("Enter");
     console.log(this.user);
     this.authService.signUpUser(this.user)
-        .subscribe(
-            res => {
-                console.log(res);
-                localStorage.setItem('token', res.token);
-                this.router.navigate(['/user']);
-            },
-            err => {
-                console.log(err);
-                if (err.status === 400) {
-                    // Utiliser MatSnackBar pour afficher l'erreur
-                    this.snackBar.open('L\'email existe déjà', 'Fermer', {
-                        duration: 3000
-                    });
-                } else {
-                    // Gérer d'autres erreurs
-                    this.snackBar.open('Erreur lors de l\'inscription', 'Fermer', {
-                        duration: 3000
-                    });
-                }
-            }
-        )
-}
-
-
+      .subscribe(
+        res => {
+          console.log(res);
+          localStorage.setItem('token', res.token);
+          this.router.navigate(['/user']);
+        },
+        err => {
+          console.error(err);
+          if (err.error && err.error.message === "The email is already in use") {
+            this.snackBar.open('L\'email existe déjà', 'Fermer', {
+              duration: 3000
+            });
+          } else {
+            this.snackBar.open('Erreur lors de l\'inscription', 'Fermer', {
+              duration: 3000
+            });
+          }
+        }
+      );
+  }
 }
