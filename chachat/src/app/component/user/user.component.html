@@ -35,7 +35,7 @@
 
 <body>
     <!-- Avatar - Wrap it inside an anchor tag -->
-    <a href="#" onclick="navigateToChat()">
+    <a [routerLink]="['/chat']">
         <div class="avatar"></div>
     </a>
 
@@ -43,32 +43,31 @@
     <div class="inbox">
         <h2>Message Inbox</h2>
         <ul>
-            <li onclick="navigateToChat('John Doe')">
+            <li>
                 <strong>Sender:</strong> John Doe
                 <br>
                 <strong>Subject:</strong> Lorem ipsum dolor sit amet
                 <br>
-                <span class="message-link">Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Duis at velit eget mauris lobortis...</span>
+                <a [routerLink]="['/chat']" class="message-link">Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Duis at velit eget mauris lobortis...</a>
             </li>
-            <li onclick="navigateToChat('Jane Smith')">
+            <li>
                 <strong>Sender:</strong> Jane Smith
                 <br>
                 <strong>Subject:</strong> Nulla viverra justo sit amet urna sollicitudin
                 <br>
-                <span class="message-link">Nulla viverra justo sit amet urna
-                    sollicitudin, nec malesuada tortor malesuada...</span>
+                <a [routerLink]="['/chat']" class="message-link">Nulla viverra justo sit amet urna
+                    sollicitudin, nec malesuada tortor malesuada...</a>
             </li>
         </ul>
     </div>
 
-    <!-- JavaScript function to navigate to chat component -->
-    <script>
-        function navigateToChat() {
-            // Redirect to the chat component using Angular's router
-            window.location.href = '/chat'; // Navigate to the chat component
-        }
-    </script>
+    <!-- Include Angular's scripts -->
+    <script src="runtime.js" defer></script>
+    <script src="polyfills.js" defer></script>
+    <script src="styles.js" defer></script>
+    <script src="vendor.js" defer></script>
+    <script src="main.js" defer></script>
 </body>
 
 </html>
