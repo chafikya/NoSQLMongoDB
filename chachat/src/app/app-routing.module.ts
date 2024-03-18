@@ -10,7 +10,6 @@ import { BoxComponent } from './component/box/box.component';
 const routes: Routes = [
 {
     path: '',
-    redirectTo: '/tasks',
     pathMatch: 'full'
   },
   {
