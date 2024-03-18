@@ -1,39 +1,30 @@
-// routes/index.js
 const { Router } = require('express');
 const router = Router();
-const mongoose = require('mongoose');
-const path = require('path');
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
-
-router.get('/', (req, res) => res.send('Hello World'))
-
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const Task = require('../models/Task');
 
+// GET request to the root URL
+router.get('/', (req, res) => {
+    res.send('Hello World');
+});
+
+// POST request to sign up a new user
 router.post('/signup', async (req, res) => {
     const { name, surname, phone, email, password } = req.body;
 
     try {
-        // Check if the user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: "The email is already in use" });
         }
 
-        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Create a new user object with all the fields
         const newUser = new User({ name, surname, phone, email, password: hashedPassword });
-
-        // Save the new user to the database
         await newUser.save();
 
-        // Generate a JWT token for the new user
-        const token = jwt.sign({ _id: User._id }, 'secretkey');
-
-        // Respond with the token
+        const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET);
         res.status(201).json({ token });
     } catch (error) {
         console.error('Error:', error);
@@ -41,8 +32,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-
-
+// POST request to sign in a user
 router.post('/signin', async (req, res) => {
     const { email, password } = req.body;
 
@@ -52,21 +42,18 @@ router.post('/signin', async (req, res) => {
             return res.status(401).json({ message: "Email not found" });
         }
 
-        // Compare the provided password with the hashed password stored in the database
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({ message: 'Incorrect password' });
         }
 
-        // If the passwords match, generate a JWT token
         const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
         res.status(200).json({ token });
     } catch (error) {
-        console.error(error); // Log the actual error for debugging
+        console.error(error);
         res.status(500).json({ message: 'An error occurred during sign-in' });
     }
 });
-
 
 router.get('/tasks', async (req, res) => {
     try {
@@ -77,9 +64,6 @@ router.get('/tasks', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
-
-const Task = require('../models/Task');
 
 // routes/index.js
 router.get('/private-tasks', verifyToken, async (req, res) => {
@@ -157,7 +141,6 @@ function verifyToken(req, res, next) {
     } catch (error) {
         return res.status(401).send('Invalid token');
     }
-    
 }
 
 module.exports = router;

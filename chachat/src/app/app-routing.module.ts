@@ -5,6 +5,7 @@ import { SigninComponent } from './component/signin/signin.component';
 import { SignupComponent } from './component/signup/signup.component';
 import { UserComponent } from './component/user/user.component';
 import { ChatComponent } from './component/chat/chat.component';
+import { BoxComponent } from './component/box/box.component';
 
 const routes: Routes = [
 {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent
+  },
+  {
+    path: 'box',
+    component: BoxComponent
   }
 ];
 

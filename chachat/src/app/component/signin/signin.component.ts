@@ -28,41 +28,19 @@ export class SigninComponent implements OnInit {
   ngOnInit() {}
 
   signIn() {
-    // Check access using Redis before signing in
-    this.redisService.checkAccess(this.user.email, this.user.password).subscribe(
+    this.authService.signInUser(this.user).subscribe(
       res => {
-        if (res === 'blocked') {
-          this.snackBar.open('You are blocked due to multiple login attempts. Please try again later.', 'Close', {
-            duration: 3000
-          });
-        } else if (res !== '0') {
-          this.snackBar.open(`You have exceeded login attempts. Please try again after ${res} seconds.`, 'Close', {
-            duration: 3000
-          });
-        } else {
-          // Proceed with signing in
-          this.authService.signInUser(this.user).subscribe(
-            res => {
-              console.log(res);
-              localStorage.setItem('token', res.token);
-              this.router.navigate(['/chat']);
-            },
-            err => {
-              console.error(err);
-              let errorMessage = 'An error occurred while signing in.';
-              if (err.error && err.error.message) {
-                errorMessage = err.error.message;
-              }
-              this.snackBar.open(errorMessage, 'Close', {
-                duration: 3000
-              });
-            }
-          );
-        }
+        console.log(res);
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/chat']);
       },
       err => {
         console.error(err);
-        this.snackBar.open('An error occurred while checking access.', 'Close', {
+        let errorMessage = 'An error occurred while signing in.';
+        if (err.error && err.error.message) {
+          errorMessage = err.error.message;
+        }
+        this.snackBar.open(errorMessage, 'Close', {
           duration: 3000
         });
       }
