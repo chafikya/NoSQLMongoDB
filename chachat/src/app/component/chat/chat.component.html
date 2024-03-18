@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport">
+    <title>Chachat</title>
+    <link rel="stylesheet" href="chat.component.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Cha Chat List</h1>
+        </div>
+        <!-- Utilisateurs connectés dynamiquement -->
+        <div *ngIf="connectedUsers.length > 0" class="user-list">
+            <div *ngFor="let user of connectedUsers" class="user" (click)="box(); $event.preventDefault()">
+                <div class="profile-picture">
+                    <!-- Remplacez par l'image de l'utilisateur ou une image par défaut -->
+                    <img src="../../data/1.jpg" alt="User">
+                </div>
+                <div class="user-info">
+                    <h2>{{ user }}</h2> <!-- Nom de l'utilisateur dynamique -->
+                    <p>Last message preview...</p>
+                </div>
+            </div>
+        </div>
+        <!-- Bouton pour rediriger vers une autre page/component -->
+        <button (click)="box()">Aller à Box</button>
+    </div>
+</body>
+</html>
