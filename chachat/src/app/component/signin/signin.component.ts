@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RedisService } from '../../services/redis.service'; // Import Redis service
 
 @Component({
   selector: 'app-signin',
@@ -22,7 +21,6 @@ export class SigninComponent implements OnInit {
     private snackBar: MatSnackBar,
     private authService: AuthService,
     private router: Router,
-    private redisService: RedisService // Inject RedisService
   ) {}
 
   ngOnInit() {}

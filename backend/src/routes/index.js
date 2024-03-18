@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Task = require('../models/Task');
+const { secretKey } = require('../routes/config.js');
 
 // GET request to the root URL
 router.get('/', (req, res) => {
@@ -24,15 +25,13 @@ router.post('/signup', async (req, res) => {
         const newUser = new User({ name, surname, phone, email, password: hashedPassword });
         await newUser.save();
 
-        const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET);
+        const token = jwt.sign({ _id: newUser._id }, secretKey);
         res.status(201).json({ token });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: 'Error creating the user' });
     }
 });
-
-// POST request to sign in a user
 router.post('/signin', async (req, res) => {
     const { email, password } = req.body;
 
@@ -42,18 +41,22 @@ router.post('/signin', async (req, res) => {
             return res.status(401).json({ message: "Email not found" });
         }
 
+        // Compare the provided password with the hashed password stored in the database
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({ message: 'Incorrect password' });
         }
 
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+        // If the passwords match, generate a JWT token
+        const token = jwt.sign({ _id: user._id }, secretKey);
         res.status(200).json({ token });
+
     } catch (error) {
-        console.error(error);
+        console.error(error); // Log the actual error for debugging
         res.status(500).json({ message: 'An error occurred during sign-in' });
     }
 });
+
 
 router.get('/tasks', async (req, res) => {
     try {
@@ -64,6 +67,7 @@ router.get('/tasks', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 // routes/index.js
 router.get('/private-tasks', verifyToken, async (req, res) => {
