@@ -30,7 +30,10 @@ export class BoxComponent implements OnInit {
     if (this.senderId !== null && this.recipientId !== null) {
       this.messageService.getMessages(this.senderId, this.recipientId).subscribe(
         (messages: any[]) => {
-          this.messages = messages;
+          // Map received messages to display numeric message IDs
+          this.messages = messages.map((message, index) => {
+            return { ...message, messageId: index + 1 };
+          });
         },
         (error) => {
           console.error('Error fetching messages:', error);

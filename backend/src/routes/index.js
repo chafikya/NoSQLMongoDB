@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models/User'); // Import User model correctly
+const User = require('../models/User');
 const Message = require('../models/Message.js');
 const { secretKey } = require('../routes/config.js');
 
