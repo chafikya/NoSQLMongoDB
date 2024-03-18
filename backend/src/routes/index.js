@@ -1,15 +1,44 @@
-const { Router } = require('express');
-const router = Router();
+const express = require('express');
+const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const Task = require('../models/Task');
+const Message = require('../models/Message.js');
 const { secretKey } = require('../routes/config.js');
 
 // GET request to the root URL
 router.get('/', (req, res) => {
     res.send('Hello World');
 });
+
+
+// POST request to create a new message
+router.post('/messages', async (req, res) => {
+    const { sender, recipient, content } = req.body;
+
+    try {
+        const newMessage = new Message({ sender, recipient, content });
+        const savedMessage = await newMessage.save();
+
+        res.status(201).json(savedMessage); // Respond with the saved message
+    } catch (error) {
+        console.error('Error creating message:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+router.get('/messages', async (req, res) => {
+    try {
+        const messages = await Message.find(); // Fetch all messages from the database
+        res.json(messages); // Send the messages as JSON response
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
 
 // POST request to sign up a new user
 router.post('/signup', async (req, res) => {
@@ -40,30 +69,6 @@ router.get('/users', async (req, res) => {
         res.json(users);
     } catch (error) {
         console.error('Error fetching users:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-
-router.get('/user/:userId/conversations', async (req, res) => {
-    const userId = req.params.userId;
-
-    try {
-        // Find messages where the user is either the sender or the recipient
-        const messages = await Message.find({ $or: [{ sender: userId }, { recipient: userId }] });
-
-        // Group messages by sender or recipient to form conversations
-        const conversations = {};
-        messages.forEach(message => {
-            const otherUserId = message.sender.toString() !== userId ? message.sender : message.recipient;
-            if (!conversations[otherUserId]) {
-                conversations[otherUserId] = [];
-            }
-            conversations[otherUserId].push(message);
-        });
-
-        res.json({ conversations: conversations });
-    } catch (error) {
-        console.error('Error fetching conversations:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
