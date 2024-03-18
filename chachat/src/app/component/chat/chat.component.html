@@ -1,62 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" >
-    <title> Chachat </title>
-    <link rel="stylesheet" href="chat.component.css">
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Cha Chat List</h1>
-        </div>
-        <div class="user-list">
-            <a href="#" (click)="box(); $event.preventDefault()">
-                <div class="user">
-                    <div class="profile-picture">
-                        <img src="../../data/1.jpg" alt="Hmed">
-                    </div>
-                    <div class="user-info">
-                        <h2>User 2</h2>
-                        <p>Last message preview...</p>
-                    </div>
-                </div>
-            </a>
-            <a href="#" (click)="box(); $event.preventDefault()">
-                <div class="user">
-                    <div class="profile-picture">
-                        <img src="../../data/1.jpg" alt="Hmed">
-                    </div>
-                    <div class="user-info">
-                        <h2>User 2</h2>
-                        <p>Last message preview...</p>
-                    </div>
-                </div>
-            </a>
-            <a href="#" (click)="box(); $event.preventDefault()">
-                <div class="user">
-                    <div class="profile-picture">
-                        <img src="../../data/1.jpg" alt="Hmed">
-                    </div>
-                    <div class="user-info">
-                        <h2>User 2</h2>
-                        <p>Last message preview...</p>
-                    </div>
-                </div>
-            </a>
-            <a href="#" (click)="box(); $event.preventDefault()">
-                <div class="user">
-                    <div class="profile-picture">
-                        <img src="../../data/1.jpg" alt="Hmed">
-                    </div>
-                    <div class="user-info">
-                        <h2>User 2</h2>
-                        <p>Last message preview...</p>
-                    </div>
-                </div>
-            </a>
-        </div>
+<div class="container">
+    <div class="header">
+      <h1>Chat List</h1>
     </div>
-</body>
-</html>
+    <div class="user-list">
+      <!-- Display conversations -->
+      <a *ngFor="let conversation of conversations" href="#" (click)="box(conversation.user._id)">
+        <div class="user">
+          <div class="profile-picture">
+            <img src="../../data/1.jpg" alt="Profile">
+          </div>
+          <div class="user-info">
+            <h2>{{ conversation.user.name }}</h2>
+            <p>Last message: {{ conversation.lastMessage.content }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  
+    <!-- Display list of all users -->
+    <div class="user-list">
+      <h2>All Users</h2>
+      <a *ngFor="let user of users" href="#" (click)="box(user._id)">
+        <div class="user">
+          <div class="profile-picture">
+            <img src="../../data/1.jpg" alt="Profile">
+          </div>
+          <div class="user-info">
+            <h2>{{ user.name }}</h2>
+            <p>{{ user.email }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  

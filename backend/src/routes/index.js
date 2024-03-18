@@ -32,6 +32,43 @@ router.post('/signup', async (req, res) => {
         res.status(500).json({ message: 'Error creating the user' });
     }
 });
+
+// Route handler to fetch all users
+router.get('/users', async (req, res) => {
+    try {
+        const users = await User.find({}, { name: 1, surname: 1 });
+        res.json(users);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+router.get('/user/:userId/conversations', async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        // Find messages where the user is either the sender or the recipient
+        const messages = await Message.find({ $or: [{ sender: userId }, { recipient: userId }] });
+
+        // Group messages by sender or recipient to form conversations
+        const conversations = {};
+        messages.forEach(message => {
+            const otherUserId = message.sender.toString() !== userId ? message.sender : message.recipient;
+            if (!conversations[otherUserId]) {
+                conversations[otherUserId] = [];
+            }
+            conversations[otherUserId].push(message);
+        });
+
+        res.json({ conversations: conversations });
+    } catch (error) {
+        console.error('Error fetching conversations:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
 router.post('/signin', async (req, res) => {
     const { email, password } = req.body;
 

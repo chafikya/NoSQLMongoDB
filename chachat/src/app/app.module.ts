@@ -7,6 +7,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './component/signup/signup.component';
+import { CommonModule } from '@angular/common';
 
 import { SigninComponent } from './component/signin/signin.component';
 import { AuthGuard } from './auth.guard';
@@ -15,7 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserComponent } from './component/user/user.component';
 import { BoxComponent } from './component/box/box.component';
-
+import { ChatComponent } from './component/chat/chat.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { BoxComponent } from './component/box/box.component';
     SignupComponent,
     SigninComponent,
     UserComponent,
-    BoxComponent
+    BoxComponent,
+    ChatComponent
   ],
   imports: [
     FormsModule,
@@ -33,6 +35,7 @@ import { BoxComponent } from './component/box/box.component';
     HttpClientModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
+    CommonModule 
   ],
   providers: [
     AuthGuard,{
