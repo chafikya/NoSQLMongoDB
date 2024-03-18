@@ -12,7 +12,7 @@
             <h1>Cha Chat List</h1>
         </div>
         <div class="user-list">
-            <a href="#" (click)="box()">
+            <a href="#" (click)="box(); $event.preventDefault()">
                 <div class="user">
                     <div class="profile-picture">
                         <img src="../../data/1.jpg" alt="Hmed">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </a>
-            <a href="#" (click)="box()">
+            <a href="#" (click)="box(); $event.preventDefault()">
                 <div class="user">
                     <div class="profile-picture">
                         <img src="../../data/1.jpg" alt="Hmed">
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </a>
-            <a href="#" (click)="box()">
+            <a href="#" (click)="box(); $event.preventDefault()">
                 <div class="user">
                     <div class="profile-picture">
                         <img src="../../data/1.jpg" alt="Hmed">
@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </a>
-            <form (submit)="box()">
+            <a href="#" (click)="box(); $event.preventDefault()">
                 <div class="user">
                     <div class="profile-picture">
                         <img src="../../data/1.jpg" alt="Hmed">
@@ -55,7 +55,7 @@
                         <p>Last message preview...</p>
                     </div>
                 </div>
-            </form>
+            </a>
         </div>
     </div>
 </body>

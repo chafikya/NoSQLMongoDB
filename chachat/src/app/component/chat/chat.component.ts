@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,16 +6,12 @@ import { Router } from '@angular/router';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent {
 
   constructor(private router: Router) { }
 
-  ngOnInit(): void {
-  }
-
   box(): void {
-    // Redirect to the box component
-    this.router.navigate(['/box']);
+    // Redirect to the box component or chat page
+    this.router.navigate(['/box']); // Change '/box' to the appropriate path
   }
-
 }

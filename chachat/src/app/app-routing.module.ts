@@ -10,6 +10,7 @@ import { BoxComponent } from './component/box/box.component';
 const routes: Routes = [
 {
     path: '',
+    redirectTo: '/chat',
     pathMatch: 'full'
   },
   {
@@ -25,12 +26,12 @@ const routes: Routes = [
     component: UserComponent
   },
   {
-    path: 'signup',
-    component: SignupComponent
-  },
-  {
     path: 'box',
     component: BoxComponent
+  },
+  {
+    path: 'signup',
+    component: SignupComponent
   }
 ];
 
