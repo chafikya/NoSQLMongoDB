@@ -1,36 +1,51 @@
 <div class="container">
-    <div class="header">
-      <h1>Chat List</h1>
-    </div>
-    <div class="user-list">
-      <!-- Display conversations -->
-      <a *ngFor="let conversation of conversations" href="#" (click)="box(conversation.user._id)">
-        <div class="user">
-          <div class="profile-picture">
-            <img src="../../data/1.jpg" alt="Profile">
-          </div>
-          <div class="user-info">
-            <h2>{{ conversation.user.name }}</h2>
-            <p>Last message: {{ conversation.lastMessage.content }}</p>
-          </div>
+  <div class="header">
+    <h1>Chat List</h1>
+  </div>
+
+  <div class="user-list">
+    <!-- Display conversations -->
+    <a *ngFor="let conversation of conversations" href="#" (click)="box(conversation.user._id); $event.preventDefault()">
+      <div class="user">
+        <div class="profile-picture">
+          <img src="../../data/1.jpg" alt="Profile">
         </div>
-      </a>
-    </div>
-  
-    <!-- Display list of all users -->
-    <div class="user-list">
-      <h2>All Users</h2>
-      <a *ngFor="let user of users" href="#" (click)="redirectToBox(user._id); $event.preventDefault()">
-        <div class="user">
-          <div class="profile-picture">
-            <img src="../../data/1.jpg" alt="Profile">
-          </div>
-          <div class="user-info">
-            <h2>{{ user.name }}</h2>
-            <p>{{ user.email }}</p>
-          </div>
+        <div class="user-info">
+          <h2>{{ conversation.user.name }}</h2>
+          <p>Last message: {{ conversation.lastMessage.content }}</p>
         </div>
-      </a>
+      </div>
+    </a>
+  </div>
+
+  <!-- Display list of all users -->
+  <div class="user-list">
+    <h2>All Users</h2>
+    <a *ngFor="let user of users" href="#" (click)="redirectToBox(user._id); $event.preventDefault()">
+      <div class="user">
+        <div class="profile-picture">
+          <img src="../../data/1.jpg" alt="Profile">
+        </div>
+        <div class="user-info">
+          <h2>{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Nouvelle section pour afficher les utilisateurs connectés -->
+  <div *ngIf="connectedUsers.length >= 0" class="user-list">
+    <h2>Connected Users</h2>
+    <div *ngFor="let user of connectedUsers" class="user" (click)="redirectToBox(user.id); $event.preventDefault()">
+      <div class="profile-picture">
+        <!-- Remplacer par l'image de profil de l'utilisateur ou utiliser une image par défaut -->
+        <img src="../../data/1.jpg" alt="{{ user.name }}">
+      </div>
+      <div class="user-info">
+        <h2>{{ user.name }}</h2>
+        <p>Online now</p>
+      </div>
     </div>
   </div>
-                      
+</div>

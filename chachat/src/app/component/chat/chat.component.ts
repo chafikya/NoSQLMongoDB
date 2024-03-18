@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from 'src/app/services/user.service';
-
-
+import { UserService } from '../../services/user.service';
+import { SocketService } from '../../services/socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -13,18 +11,32 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ChatComponent implements OnInit {
   conversations: any[] = [];
-  users: any[] = []; // Array to store user data
+  users: any[] = [];
+  connectedUsers: any[] = []; // Pour stocker les utilisateurs connectés en temps réel
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private socketService: SocketService // Injection du SocketService
   ) {}
 
   ngOnInit(): void {
     this.fetchConversations();
-    this.fetchUsers(); // Fetch users when the component initializes
+    this.fetchUsers();
+    this.listenForConnectedUsers();
   }
+
+  listenForConnectedUsers(): void {
+    this.socketService.listen('liste utilisateurs connectes', (users: any[]) => {
+      this.connectedUsers = users; // Mettez à jour votre liste d'utilisateurs connectés ici
+      console.log(this.connectedUsers);
+    });
+  }
+
+  // Les autres méthodes restent inchangées...
+
+
 
   redirectToBox(userId: string) {
     this.router.navigate(['/box', userId]);
