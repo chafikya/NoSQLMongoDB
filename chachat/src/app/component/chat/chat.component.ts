@@ -4,8 +4,6 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
-
-
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -24,10 +22,6 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.fetchConversations();
     this.fetchUsers(); // Fetch users when the component initializes
-  }
-
-  redirectToBox(userId: string) {
-    this.router.navigate(['/box', userId]);
   }
 
   fetchConversations() {

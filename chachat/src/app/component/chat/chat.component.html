@@ -20,7 +20,7 @@
     <!-- Display list of all users -->
     <div class="user-list">
       <h2>All Users</h2>
-      <a *ngFor="let user of users" href="#" (click)="redirectToBox(user._id); $event.preventDefault()">
+      <a *ngFor="let user of users" href="#" (click)="box(user._id)">
         <div class="user">
           <div class="profile-picture">
             <img src="../../data/1.jpg" alt="Profile">
@@ -33,4 +33,4 @@
       </a>
     </div>
   </div>
-                      
+  

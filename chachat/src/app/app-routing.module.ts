@@ -26,7 +26,7 @@ const routes: Routes = [
     component: UserComponent
   },
   {
-    path: 'box/:userId', // Specify the parameter userId
+    path: 'box',
     component: BoxComponent
   },
   {

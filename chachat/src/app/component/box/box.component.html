@@ -1,16 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Page</title>
+    <link rel="stylesheet" href="box.component.css">
+</head>
+<body>
+
 <div class="container">
     <h1>Discussion Page</h1>
-  
+
     <div class="discussion">
-      <div *ngFor="let message of messages" class="comment">
-        <p class="comment-author">{{ message.sender }}:</p>
-        <p>{{ message.content }}</p>
-      </div>
+        <div class="comment">
+            <p class="comment-author">John:</p>
+            <p>This is the first comment. What do you think?</p>
+        </div>
+        <div class="comment">
+            <p class="comment-author">Alice:</p>
+            <p>I agree with John. This is an interesting topic.</p>
+        </div>
+        <!-- Add more comments here -->
     </div>
-  
-    <form (submit)="onSubmit()">
-      <textarea name="comment" rows="4" cols="50" placeholder="Write your comment here..." [(ngModel)]="newMessageContent"></textarea><br>
-      <button type="submit">Post Comment</button>
+
+    <form>
+        <textarea name="comment" rows="4" cols="50" placeholder="Write your comment here..."></textarea><br>
+        <button type="submit">Post Comment</button>
     </form>
-  </div>
-  
+</div>
+
+</body>
+</html>
