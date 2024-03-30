@@ -29,10 +29,13 @@ export class ChatComponent implements OnInit {
 
   listenForConnectedUsers(): void {
     this.socketService.listen('liste utilisateurs connectes', (users: any[]) => {
-      this.connectedUsers = users; // Mettez à jour votre liste d'utilisateurs connectés ici
+      this.connectedUsers = users.map(user => ({
+        ...user,
+        avatarPath: user.avatar ? `assets/avatar/${user.avatar}` : 'assets/avatar/penguin.png'
+      }));
       console.log(this.connectedUsers);
     });
-  }
+  }  
 
   // Les autres méthodes restent inchangées...
 
@@ -63,7 +66,11 @@ export class ChatComponent implements OnInit {
   fetchUsers() {
     this.authService.getUsers().subscribe(
       (users: any[]) => {
-        this.users = users;
+        // Assignez un avatar par défaut ici si l'utilisateur n'en a pas
+        this.users = users.map(user => ({
+          ...user,
+          avatarPath: user.avatar ? `assets/avatar/${user.avatar}` : 'assets/avatar/penguin.png'
+        }));
       },
       (error) => {
         console.error('Error fetching users:', error);

@@ -1,43 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
+
 /* Navbar Styles */
 .navbar {
-    background-color: #3498db; /* Set your desired background color */
+  background: linear-gradient(145deg, #1e90ff, #87cefa); /* Blue gradient similar to the form */
+  border-bottom: none; /* Remove any default border */
 }
 
 .navbar-brand {
-    color: #ffffff; /* Set your desired text color for the brand */
-    font-size: 1.5rem; /* Set your desired font size */
+  color: #ffffff;
+  font-size: 2rem; /* Increased font size */
+  font-weight: 900; /* Maximum font weight for boldness */
+  font-family: 'Roboto', sans-serif; /* Using a Google Font for a modern look */
+  text-transform: uppercase; /* Uppercase lettering for a stronger presence */
+  letter-spacing: 0.05em; /* Spacing out the letters for better readability and style */
+  text-shadow: 0px 2px 2px rgba(0,0,0,0.2); /* Subtle text shadow for depth */
+  transition: color 0.3s ease-in-out; /* Smooth color transition on hover */
+}
+
+.navbar-brand:hover {
+  color: #a1c4fd; /* Lighter blue on hover for interactivity */
+}
+
+.navbar-toggler {
+  border-color: rgba(255,255,255,0.5);
 }
 
 .navbar-toggler-icon {
-    background-color: #ffffff; /* Set the color of the navbar toggler icon */
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
 /* Navbar Links Styles */
-.navbar-nav .nav-item {
-    margin-right: 10px; /* Adjust the spacing between navbar items */
-}
-
 .navbar-nav .nav-link {
-    color: #ffffff; /* Set your desired text color for the links */
-    font-size: 1rem; /* Set your desired font size */
+  color: #ffffff;
+  transition: color 0.3s ease-in-out;
 }
 
-/* Active Link Styles */
-.nav-item.active .nav-link {
-    font-weight: bold; /* Set the font weight for active links */
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: #f0f8ff;
+  text-decoration: none;
 }
 
-/* Container Styles */
-.container.p-5 {
-    margin-top: 20px; /* Adjust the top margin for the container */
+.navbar-nav .nav-item.active .nav-link {
+  color: #a1c4fd;
 }
 
-/* Responsive Styles */
-@media (max-width: 767px) {
-    .navbar-nav .nav-item {
-        margin-bottom: 10px; /* Adjust the spacing between navbar items on smaller screens */
-    }
+.nav-link {
+    cursor: pointer; /* This will change the cursor to the 'hand' pointer on hover */
+  }
+  
+/* Adjusting for mobile screens */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background-color: #1e90ff;
+  }
+
+  .navbar-nav .nav-link {
+    color: #ffffff;
+  }
 }
-.navbar.navbar-expand-lg.navbar-light.bg-light {
-    background-color: #3498db !important; /* Set your desired background color */
-}
+

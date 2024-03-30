@@ -1,6 +1,9 @@
+// box.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '../../services/message.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-box',
@@ -9,53 +12,64 @@ import { MessageService } from '../../services/message.service';
 })
 export class BoxComponent implements OnInit {
   messages: any[] = [];
-  senderId: string | null = null;
+  currentUserId: string = '';
   recipientId: string | null = null;
   newMessageContent: string = '';
 
   constructor(
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService // Inject AuthService
   ) {}
 
   ngOnInit(): void {
+    this.currentUserId = this.authService.getCurrentUserId(); // Get the current user ID from AuthService
     this.route.paramMap.subscribe(params => {
-      this.senderId = 'your_sender_id'; // Set the sender ID
       this.recipientId = params.get('userId'); // Get the recipient ID from the route parameter
-      this.fetchMessages();
+
+      if (this.recipientId) {
+        this.fetchMessages();
+      }
     });
   }
 
-  fetchMessages() {
-    if (this.senderId !== null && this.recipientId !== null) {
-      this.messageService.getMessages(this.senderId, this.recipientId).subscribe(
-        (messages: any[]) => {
-          // Map received messages to display numeric message IDs
-          this.messages = messages.map((message, index) => {
-            return { ...message, messageId: index + 1 };
-          });
-        },
-        (error) => {
-          console.error('Error fetching messages:', error);
-        }
-      );
-    } else {
+  fetchMessages(): void {
+    if (!this.currentUserId || !this.recipientId) {
       console.error('Sender ID or recipient ID is null.');
+      return;
     }
+  
+    this.messageService.getMessages(this.currentUserId, this.recipientId).subscribe(
+      (messages: any[]) => {
+        this.messages = messages.map(message => ({
+          ...message,
+          isSent: message.sender === this.currentUserId
+        }));
+      },
+      (error) => {
+        console.error('Error fetching messages:', error);
+      }
+    );
   }
 
-  onSubmit() {
-    if (this.senderId !== null && this.recipientId !== null && this.newMessageContent.trim() !== '') {
-      this.messageService.postMessage(this.senderId, this.recipientId, this.newMessageContent).subscribe(
-        () => {
-          // Clear the input field and fetch messages again
-          this.newMessageContent = '';
-          this.fetchMessages();
-        },
-        (error) => {
-          console.error('Error posting message:', error);
-        }
-      );
+  onSubmit(): void {
+    if (!this.currentUserId || !this.recipientId || !this.newMessageContent.trim()) {
+      return;
     }
+  
+    this.messageService.postMessage(this.currentUserId, this.recipientId, this.newMessageContent).subscribe(
+      newMessage => {
+        this.messages.push({
+          ...newMessage,
+          isSent: true // Since you're the sender of the new message
+        });
+        this.newMessageContent = ''; // Clear the input field
+      },
+      error => {
+        console.error('Error posting message:', error);
+      }
+    );
   }
+  
 }
+

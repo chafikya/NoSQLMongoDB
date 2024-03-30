@@ -1,16 +1,25 @@
-<div class="container">
-    <h1>Discussion Page</h1>
+<div class="chat-container">
+  <h1>Discussion Page</h1>
   
-    <div class="discussion">
-      <div *ngFor="let message of messages" class="comment">
-        <p class="comment-author">{{ message.sender }}:</p>
-        <p>{{ message.content }}</p>
+  <div class="messages">
+    <div *ngFor="let message of messages" 
+         class="message" 
+         [ngClass]="{'sent': message.isSent, 'received': !message.isSent}">
+      <div class="message-content">
+        {{ message.content }}
       </div>
     </div>
-  
-    <form (submit)="onSubmit()">
-      <textarea name="comment" rows="4" cols="50" placeholder="Write your comment here..." [(ngModel)]="newMessageContent"></textarea><br>
-      <button type="submit">Post Comment</button>
-    </form>
   </div>
+
+  <form class="message-form" (ngSubmit)="onSubmit()">
+    <textarea [(ngModel)]="newMessageContent" 
+              name="message" 
+              rows="4" 
+              placeholder="Write your message here..." 
+              required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</div>
+
+
   

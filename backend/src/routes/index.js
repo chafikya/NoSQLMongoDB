@@ -19,8 +19,16 @@ router.post('/messages', async (req, res) => {
     try {
         const newMessage = new Message({ sender, recipient, content });
         const savedMessage = await newMessage.save();
+        await savedMessage.populate('sender', 'name').populate('recipient', 'name').execPopulate();
 
-        res.status(201).json(savedMessage); // Respond with the saved message
+        // Renvoyer le message enregistré avec les informations de l'expéditeur et du destinataire
+        res.status(201).json({
+          _id: savedMessage._id,
+          sender: savedMessage.sender.name,
+          recipient: savedMessage.recipient.name,
+          content: savedMessage.content,
+          createdAt: savedMessage.createdAt
+        });
     } catch (error) {
         console.error('Error creating message:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -28,15 +36,36 @@ router.post('/messages', async (req, res) => {
 });
 
 
+// GET request to retrieve messages for a conversation between two users
 router.get('/messages', async (req, res) => {
+    const { senderId, recipientId } = req.query;
+
     try {
-        const messages = await Message.find(); // Fetch all messages from the database
-        res.json(messages); // Send the messages as JSON response
+        // Récupérer uniquement les messages entre deux utilisateurs spécifiés
+        const messages = await Message.find({
+          $or: [
+            { sender: senderId, recipient: recipientId },
+            { sender: recipientId, recipient: senderId }
+          ]
+        }).populate('sender', 'name').populate('recipient', 'name');
+
+        // Construire et envoyer une réponse avec les détails de l'utilisateur pour chaque message
+        const detailedMessages = messages.map(message => ({
+            _id: message._id,
+            sender: message.sender.name,
+            senderId: message.sender._id, // Add this line to include the sender's ID
+            recipient: message.recipient.name,
+            content: message.content,
+            createdAt: message.createdAt
+          }));
+
+        res.json(detailedMessages);
     } catch (error) {
         console.error('Error fetching messages:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 
 
@@ -73,6 +102,14 @@ router.get('/users', async (req, res) => {
     }
 });
 
+router.get('/user/id', verifyToken, (req, res) => {
+    // Assuming verifyToken middleware decodes the token and sets req.userId
+    if (req.userId) {
+      res.json({ userId: req.userId });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  });
 
 router.post('/signin', async (req, res) => {
     const { email, password } = req.body;

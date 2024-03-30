@@ -22,7 +22,15 @@ export class AuthService {
     return this.http.get<string>(`${this.URL}/user/id`);
   }
 
+  getCurrentUserId(): string {
+    const token = this.getToken();
+    if (!token) return '';
 
+    // Decode the JWT to get the user ID
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    return decodedToken._id;
+  }
+  
   signInUser(user: any) {
     return this.http.post<any>(`${this.URL}/signin`, user);
   }
@@ -35,8 +43,8 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
-    this.router.navigate(['/tasks']);
-  }
+    this.router.navigate(['/signin']); // Navigate to the sign-in route after logging out
+  }  
 
   getToken() {
     return localStorage.getItem('token');
