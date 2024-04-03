@@ -28,7 +28,9 @@ app.use(authenticate.unless({
         { url: "/api/signup", methods: ["POST"] },
         { url: "/api/signin", methods: ["POST"] },
         { url: "/api/user/id", methods: ["GET"] },
-        { url: "/api/users", methods: ["GET"] }
+        { url: "/api/users", methods: ["GET"] },
+        { url: "/api/messages", methods: ["POST"] },
+        { url: "/api/messages", methods: ["GET"] }
     ],
 }));
 
