@@ -1,0 +1,81 @@
+/* signin.component.css */
+:host {
+    display: block;
+    padding: 2rem;
+    
+  }
+  
+  .card {
+    background: linear-gradient(145deg, #1e90ff, #87cefa); /* Un dégradé de bleu */
+    color: #ffffff; /* Le texte en blanc pour un contraste élevé */
+    width: 100%; /* La largeur maximale pour les petits écrans */
+    max-width: 500px; /* La largeur maximale pour les grands écrans */
+    margin: 2rem auto; /* Centrer la carte avec une marge */
+    padding: 2rem; /* Espace à l'intérieur de la carte */
+    border-radius: 10px; /* Les bords arrondis de la carte */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Une ombre pour l'effet de profondeur */
+    text-align: center; /* Centrez le texte à l'intérieur de la carte */
+  }
+  
+  .card-header {
+    font-size: 2em; /* La taille du texte de l'en-tête */
+    margin-bottom: 1.5rem; /* La marge en dessous de l'en-tête */
+  }
+  
+  .form-group {
+    margin-bottom: 1rem; /* La marge en dessous de chaque groupe de formulaire */
+  }
+  
+  .form-control {
+    width: 100%; /* La largeur du champ de saisie */
+    padding: 0.75rem; /* L'espace intérieur du champ de saisie */
+    border: none; /* Aucune bordure pour le champ de saisie */
+    border-bottom: 2px solid #ffffff; /* Une bordure en bas du champ de saisie */
+    background-color: transparent; /* Un fond transparent pour le champ de saisie */
+    color: white; /* Le texte en blanc dans le champ de saisie */
+    margin-bottom: 1rem; /* La marge en dessous du champ de saisie */
+    font-size: 1rem; /* La taille de la police dans le champ de saisie */
+  }
+  
+  .btn {
+    width: 100%; /* La largeur du bouton */
+    padding: 0.75rem; /* L'espace intérieur du bouton */
+    border-radius: 5px; /* Les bords arrondis du bouton */
+    background-color: #333; /* La couleur de fond du bouton */
+    color: white; /* Le texte en blanc sur le bouton */
+    font-size: 1rem; /* La taille de la police sur le bouton */
+    cursor: pointer; /* La forme du curseur en pointeur */
+    transition: background-color 0.3s; /* Une transition pour l'effet de survol */
+  }
+  
+  .btn:hover {
+    background-color: #555; /* Un changement de couleur lors du survol */
+  }
+
+  /* Styles supplémentaires pour le lien SignUp */
+.mt-4 {
+    margin-top: 1.5rem; /* Espacement en haut pour la séparation */
+  }
+  
+  .text-center {
+    text-align: center; /* Centre le texte */
+  }
+  
+  .text-center a {
+    color: #3498db; /* Couleur de votre choix pour le lien */
+    font-weight: bold; /* Rend le texte du lien en gras */
+    text-decoration: none; /* Retire le soulignement par défaut des liens */
+  }
+  
+  .text-center a:hover {
+    text-decoration: underline; /* Ajoute un soulignement au survol du lien */
+  }
+  
+  @media (max-width: 576px) {
+    .card {
+      width: 90%; /* La largeur de la carte pour les petits écrans */
+      margin: 1rem auto; /* La marge pour les petits écrans */
+    }
+  }
+  
+  

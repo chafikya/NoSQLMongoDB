@@ -44,7 +44,7 @@ export class ChatComponent implements OnInit {
         return users.some(socketUser => socketUser.email === user.email);
       });
     });
-  }
+  }  
 
   // Rediriger vers la boîte de discussion d'un utilisateur spécifique
   redirectToBox(user: any): void {
@@ -74,7 +74,11 @@ export class ChatComponent implements OnInit {
   fetchUsers() {
     this.authService.getUsers().subscribe(
       (users: any[]) => {
-        this.users = users;
+        // Assignez un avatar par défaut ici si l'utilisateur n'en a pas
+        this.users = users.map(user => ({
+          ...user,
+          avatarPath: user.avatar ? `assets/avatar/${user.avatar}` : 'assets/avatar/penguin.png'
+        }));
       },
       (error) => {
         console.error('Error fetching users:', error);

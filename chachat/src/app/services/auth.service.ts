@@ -28,7 +28,15 @@ export class AuthService {
     return localStorage.getItem('userEmail')  || '';
   }
 
+  getCurrentUserId(): string {
+    const token = this.getToken();
+    if (!token) return '';
 
+    // Decode the JWT to get the user ID
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    return decodedToken._id;
+  }
+  
   signInUser(user: any) {
     return this.http.post<any>(`${this.URL}/signin`, user).pipe(
       tap(res => {
