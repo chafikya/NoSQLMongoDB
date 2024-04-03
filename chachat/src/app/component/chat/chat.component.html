@@ -8,7 +8,7 @@
     <a *ngFor="let conversation of conversations" href="#" (click)="box(conversation.user._id); $event.preventDefault()">
       <div class="user">
         <div class="profile-picture">
-          <img src="../../data/1.jpg" alt="Profile">
+          <img src="assets/data/wo.jpg" alt="Profile">
         </div>
         <div class="user-info">
           <h2>{{ conversation.user.name }}</h2>
@@ -24,7 +24,7 @@
     <a *ngFor="let user of users" href="#" (click)="redirectToBox(user._id); $event.preventDefault()">
       <div class="user">
         <div class="profile-picture">
-          <img src="../../data/1.jpg" alt="Profile">
+          <img src="assets/data/wo.jpg" alt="Profile">
         </div>
         <div class="user-info">
           <h2>{{ user.name }}</h2>
@@ -35,17 +35,18 @@
   </div>
 
   <!-- Nouvelle section pour afficher les utilisateurs connectés -->
-  <div *ngIf="connectedUsers.length >= 0" class="user-list">
+  <div *ngIf="connectedUsers.length > 0" class="user-list">
     <h2>Connected Users</h2>
-    <div *ngFor="let user of connectedUsers" class="user" (click)="redirectToBox(user.id); $event.preventDefault()">
+    <div *ngFor="let connectedUser of connectedUsers" class="user" (click)="redirectToBox(connectedUser); $event.preventDefault()">
       <div class="profile-picture">
         <!-- Remplacer par l'image de profil de l'utilisateur ou utiliser une image par défaut -->
-        <img src="../../data/1.jpg" alt="{{ user.name }}">
+        <img src="assets/data/wo.jpg" alt="{{ getConnectedUserInfo(connectedUser)?.name }}">
       </div>
       <div class="user-info">
-        <h2>{{ user.name }}</h2>
+        <h2>{{ connectedUser.email }}</h2>
         <p>Online now</p>
       </div>
     </div>
   </div>
+
 </div>
