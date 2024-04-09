@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models/User'); // Import User model correctly
+const { User } = require('../models/User'); 
 const Message = require('../models/Message.js');
 const { secretKey } = require('../routes/config.js');
 
@@ -71,7 +71,7 @@ router.post('/signup', async (req, res) => {
 // Route handler to fetch all users
 router.get('/users', async (req, res) => {
     try {
-        const users = await User.find({}, { name: 1, surname: 1 });
+        const users = await User.find({}, {  name: 1, surname: 1, email:1 });
         res.json(users);
     } catch (error) {
         console.error('Error fetching users:', error);

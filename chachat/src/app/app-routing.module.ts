@@ -10,7 +10,7 @@ import { BoxComponent } from './component/box/box.component';
 const routes: Routes = [
 {
   path: '',
-  redirectTo: '/signup', // Redirection vers le composant SignupComponent par défaut
+  redirectTo: '/signin', // Redirection vers le composant SignupComponent par défaut
   pathMatch: 'full'
   },
   {
