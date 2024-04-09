@@ -3,21 +3,6 @@
     <h1>Chat List</h1>
   </div>
 
-  <div class="user-list">
-    <!-- Display conversations -->
-    <a *ngFor="let conversation of conversations" href="#" (click)="box(conversation.user._id); $event.preventDefault()">
-      <div class="user">
-        <div class="profile-picture">
-          <img src="../../data/1.jpg" alt="Profile">
-        </div>
-        <div class="user-info">
-          <h2>{{ conversation.user.name }}</h2>
-          <p>Last message: {{ conversation.lastMessage.content }}</p>
-        </div>
-      </div>
-    </a>
-  </div>
-
   <!-- Display list of all users -->
   <div class="user-list">
     <h2>All Users</h2>

@@ -10,6 +10,7 @@ import { SocketService } from '../../services/socket.service';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
+  userId: string | null = null;
   conversations: any[] = [];
   users: any[] = [];
   connectedUsers: any[] = []; // Pour stocker les utilisateurs connectés en temps réel
@@ -22,6 +23,7 @@ export class ChatComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.userId = localStorage.getItem('userId');
     this.fetchConversations();
     this.fetchUsers();
     this.listenForConnectedUsers();

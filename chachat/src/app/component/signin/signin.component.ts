@@ -28,9 +28,37 @@ export class SigninComponent implements OnInit {
   signIn() {
     this.authService.signInUser(this.user).subscribe(
       res => {
-        console.log(res);
-        localStorage.setItem('token', res.token);
-        this.router.navigate(['/chat']);
+        if (res) {
+          console.log(res);
+          localStorage.setItem('token', res.token);
+          
+          // Retrieve user ID using the email from the response
+          this.authService.getUserIdFromDatabase(res.email).subscribe(
+            userIdRes => {
+              if (userIdRes && userIdRes.userId) {
+                localStorage.setItem('userId', userIdRes.userId);
+                console.log('User ID:', userIdRes.userId); // Log the user ID to the console
+                this.router.navigate(['/chat']);
+              } else {
+                console.error('User ID not found');
+                this.snackBar.open('User ID not found.', 'Close', {
+                  duration: 3000
+                });
+              }
+            },
+            userIdErr => {
+              console.error(userIdErr);
+              this.snackBar.open('Error fetching user ID from database.', 'Close', {
+                duration: 3000
+              });
+            }
+          );
+        } else {
+          console.error('Response is null');
+          this.snackBar.open('An error occurred while signing in. Please try again.', 'Close', {
+            duration: 3000
+          });
+        }
       },
       err => {
         console.error(err);

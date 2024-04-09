@@ -1,5 +1,3 @@
-// message.service.ts
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -19,5 +17,9 @@ export class MessageService {
   postMessage(senderId: string, recipientId: string, content: string): Observable<any> {
     const body = { senderId, recipientId, content };
     return this.http.post<any>(`${this.apiUrl}/messages`, body); // Update the URL
+  }
+
+  getUser(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/users/${userId}`); // Assuming user details are fetched from /users/:userId endpoint
   }
 }

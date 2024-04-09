@@ -11,13 +11,13 @@ router.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-
 // POST request to create a new message
-router.post('/messages', async (req, res) => {
-    const { sender, recipient, content } = req.body;
+router.post('/messages', verifyToken, async (req, res) => {
+    const { recipientId, content } = req.body;
+    const senderId = req.userId; // Extract sender ID from token
 
     try {
-        const newMessage = new Message({ sender, recipient, content });
+        const newMessage = new Message({ sender: senderId, recipient: recipientId, content });
         const savedMessage = await newMessage.save();
 
         res.status(201).json(savedMessage); // Respond with the saved message
@@ -27,19 +27,25 @@ router.post('/messages', async (req, res) => {
     }
 });
 
+// GET request to fetch messages between two users
+router.get('/messages', verifyToken, async (req, res) => {
+    const senderId = req.userId; // Extract sender ID from token
+    const recipientId = req.query.recipientId; // Extract recipient ID from query parameter
 
-router.get('/messages', async (req, res) => {
     try {
-        const messages = await Message.find(); // Fetch all messages from the database
+        const messages = await Message.find({ 
+            $or: [
+                { sender: senderId, recipient: recipientId },
+                { sender: recipientId, recipient: senderId }
+            ]
+        }).populate('sender recipient', 'name surname'); // Populate sender and recipient details
+
         res.json(messages); // Send the messages as JSON response
     } catch (error) {
         console.error('Error fetching messages:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
-
-
 // POST request to sign up a new user
 router.post('/signup', async (req, res) => {
     const { name, surname, phone, email, password } = req.body;

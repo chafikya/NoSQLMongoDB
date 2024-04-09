@@ -11,6 +11,8 @@ export class BoxComponent implements OnInit {
   messages: any[] = [];
   senderId: string | null = null;
   recipientId: string | null = null;
+  sender: any;
+  recipient: any;
   newMessageContent: string = '';
 
   constructor(
@@ -20,19 +22,28 @@ export class BoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.senderId = 'your_sender_id'; // Set the sender ID
-      this.recipientId = params.get('userId'); // Get the recipient ID from the route parameter
+      this.senderId = '65f5a365c1a09252e48ac08c';
+      console.log('Sender ID from localStorage:', this.senderId); // Log the value obtained from localStorage
+      this.recipientId = params.get('userId'); 
       this.fetchMessages();
     });
   }
-
+  
   fetchMessages() {
     if (this.senderId !== null && this.recipientId !== null) {
       this.messageService.getMessages(this.senderId, this.recipientId).subscribe(
         (messages: any[]) => {
-          // Map received messages to display numeric message IDs
-          this.messages = messages.map((message, index) => {
-            return { ...message, messageId: index + 1 };
+          // Filter messages exchanged between sender and recipient
+          this.messages = messages.filter(message => 
+            (message.sender === this.senderId && message.recipient === this.recipientId) ||
+            (message.sender === this.recipientId && message.recipient === this.senderId)
+          ).map((message, index) => {
+            return { 
+              ...message, 
+              messageId: index + 1,
+              senderId: message.sender,
+              recipientId: message.recipient
+            };
           });
         },
         (error) => {
